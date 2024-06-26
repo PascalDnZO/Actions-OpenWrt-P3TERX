@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: Bolt bl100 builder
+name: Bolt bl100 build kernel
 
 on:
   repository_dispatch:
