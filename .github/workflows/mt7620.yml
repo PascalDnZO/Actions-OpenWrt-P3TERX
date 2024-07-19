@@ -62,7 +62,7 @@ jobs:
 
     - name: add new devices
       run: |
-        [ -e mt7620/target ] && mv mt7620/target openwrt/target
+        [ -e mt7620/target ] && rsync -av mt7620/target openwrt/target
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
