@@ -81,14 +81,14 @@ jobs:
 
     - name: target
       run: |
-        cd openwrt/target
-        tar -cvf linux.tar linux
+        cd openwrt/target/linux
+        tar -cvf ramips.tar ramips
 
     - name: Organize files
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/target
+        cd openwrt/target/linux
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
