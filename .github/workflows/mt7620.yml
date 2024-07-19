@@ -56,6 +56,9 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        
+    - name: Choose version
+      run: cd openwrt && git checkout v21.02.7
 
     - name: Load custom feeds
       run: |
@@ -63,9 +66,6 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-
-    - name: Choose version
-      run: cd openwrt && git checkout v21.02.7
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
