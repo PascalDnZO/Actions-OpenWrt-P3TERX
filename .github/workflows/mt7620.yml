@@ -73,6 +73,8 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        touch openwrt/target/linux/*/Makefile
+        sleep 5
 
     - name: Compile the firmware
       id: compile
