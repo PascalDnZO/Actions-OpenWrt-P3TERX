@@ -75,7 +75,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        wget $URL_CONFIG -O openwrt/.config
+        wget $CONFIG_URL -O openwrt/.config
         make defconfig
 
     - name: Compile the firmware
