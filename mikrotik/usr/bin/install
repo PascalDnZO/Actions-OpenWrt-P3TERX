@@ -1,6 +1,6 @@
 #!/bin/sh
 insmod mtd-rw.ko i_want_a_brick=1
 sleep 3
-mtd write /root/rb750gr3_soft_config.bin soft_config
+mtd -n write /root/soft.bin soft_config
 sleep 3
 reboot
