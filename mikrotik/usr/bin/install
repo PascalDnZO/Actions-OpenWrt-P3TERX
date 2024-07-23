@@ -1,6 +1,6 @@
 #!/bin/sh
 insmod mtd-rw.ko i_want_a_brick=1
 sleep 3
-mtd write /root/ubootR4AGE.bin u-boot
+mtd write /root/ubootR4AGE.bin RouterBoot
 sleep 3
 reboot
