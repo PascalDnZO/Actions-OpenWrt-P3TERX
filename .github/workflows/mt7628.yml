@@ -50,21 +50,21 @@ jobs:
     - name: Choose version
       run: cd openwrt && git checkout v21.02.7
 
-    - name: add new devices
-      run: |
-        # [ -e $NEW_DEVICES_CONFIG ] && rsync -av $NEW_DEVICES_CONFIG/ openwrt/target/
-        touch openwrt/target/linux/*/Makefile
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: add new devices
+      run: |
+        [ -e $NEW_DEVICES_CONFIG ] && rsync -av $NEW_DEVICES_CONFIG/ openwrt/target/
+        
     - name: Load custom configuration
       run: |
         cd openwrt
         wget $CONFIG_URL -O .config
+        touch target/linux/*/Makefile
         make defconfig
 
     - name: Compile the firmware
