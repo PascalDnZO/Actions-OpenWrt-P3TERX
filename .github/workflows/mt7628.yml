@@ -1,15 +1,3 @@
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-#
-# File: .github/workflows/openwrt-bulder.yml
-# Description: Build OpenWrt using GitHub Actions
-#
-# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-
 name: OpenWrt Builder mt7628 21.02.7
 
 on:
@@ -64,7 +52,7 @@ jobs:
 
     - name: add new devices
       run: |
-        [ -e $NEW_DEVICES_CONFIG ] && rsync -av $NEW_DEVICES_CONFIG/ openwrt/target/
+        # [ -e $NEW_DEVICES_CONFIG ] && rsync -av $NEW_DEVICES_CONFIG/ openwrt/target/
         touch openwrt/target/linux/*/Makefile
 
     - name: Update feeds
