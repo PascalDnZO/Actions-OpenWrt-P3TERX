@@ -59,6 +59,7 @@ jobs:
     - name: add new devices
       run: |
         [ -e $NEW_DEVICES_CONFIG ] && rsync -av $NEW_DEVICES_CONFIG/ openwrt/target/
+        [ -e mt7628/files ] && mv mt7628/files/ openwrt/files
         
     - name: Load custom configuration
       run: |
