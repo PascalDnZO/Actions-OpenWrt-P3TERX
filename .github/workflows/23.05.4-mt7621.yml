@@ -89,7 +89,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        cd openwrt/build_dir/*/linux-$BOARD_$CPU
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
