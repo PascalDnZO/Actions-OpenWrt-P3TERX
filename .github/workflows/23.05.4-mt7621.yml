@@ -59,7 +59,7 @@ jobs:
     - name: Load custom configuration
       run: |
         cd openwrt
-        wget https://downloads.openwrt.org/releases/$VERISON/targets/$BOARD/$CPU/config.buildinfo -O .config
+        wget https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
 
