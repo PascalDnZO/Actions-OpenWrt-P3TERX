@@ -9,6 +9,7 @@ env:
   VERSION: 23.05.4
   CPU: mt7621
   BOARD: ramips
+  KERNEL_DIR: openwrt/build_dir/*/linux-ramips_mt7621
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
@@ -89,7 +90,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/build_dir/*/linux-$BOARD_$CPU
+        cd $KERNEL_DIR
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
