@@ -62,12 +62,12 @@
 	ports {
 		port@1 {
 			status = "okay";
-			label = "lan1";
+			label = "lan2";
 		};
 
 		port@2 {
 			status = "okay";
-			label = "lan2";
+			label = "lan1";
 		};
 
 		wan: port@3 {
