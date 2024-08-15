@@ -55,7 +55,7 @@ jobs:
 
     - name: add new devices
       run: |
-        [ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/ openwrt/target/
+        #[ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/ openwrt/target/
         
     - name: Load custom configuration
       run: |
@@ -90,8 +90,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd $KERNEL_DIR
-        find . -type f -not -name "*878*" -not -name "*4a*" -not -name "*bolt*" -exec rm -rf {} +
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
