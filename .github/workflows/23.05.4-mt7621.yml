@@ -55,7 +55,7 @@ jobs:
 
     - name: add new devices
       run: |
-        [ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/ openwrt/target/
+        [ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/linux/ramips/dts/ openwrt/target/linux/ramips/dts/
         
     - name: Load custom configuration
       run: |
