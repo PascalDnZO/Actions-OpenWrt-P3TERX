@@ -55,7 +55,7 @@ jobs:
 
     - name: add new devices
       run: |
-        mv $VERSION/$CPU/target/linux/ramips/dts/jcg_q20.dts openwrt/target/linux/ramips/dts/jcg_q20.dts
+        mv $VERSION/$CPU/target/linux/ramips/dts/mt7621_jcg_q20.dts openwrt/target/linux/ramips/dts/mt7621_jcg_q20.dts
         
     - name: Load custom configuration
       run: |
