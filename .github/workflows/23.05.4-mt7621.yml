@@ -90,8 +90,9 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        cd $KERNEL_DIR
         rm -rf packages
+        find . -type f -not -name "*878*" -not -name "*4a*" -not -name "*bolt*" -not -name "*q20*" -exec rm -rf {} +
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
