@@ -4,5 +4,5 @@
 
 / {
 	compatible = "sim,simax1800t", "mediatek,mt7621-soc";
-	model = "SIM SIMAX1800T";
+	model = "DnZO AX V1";
 };
