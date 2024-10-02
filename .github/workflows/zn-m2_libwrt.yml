@@ -17,10 +17,10 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede.git
-  REPO_BRANCH: master
+  #REPO_URL: https://github.com/coolsnowwolf/lede.git
+  #REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: zn-m2.config
+  CONFIG_FILE: zn-m2_libwrt.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -54,7 +54,8 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        #git clone $REPO_URL -b $REPO_BRANCH openwrt
+        git clone --depth 1 -b main --single-branch https://github.com/LiBwrt-op/openwrt-6.x.git openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
@@ -73,7 +74,7 @@ jobs:
     - name: add new devices
       run: |
         #mv $VERSION/$CPU/target/linux/ramips/dts/mt7621_jcg_q20.dts openwrt/target/linux/ramips/dts/mt7621_jcg_q20.dts
-        [ -e lede/target ] && rsync -av lede/target/ openwrt/target/
+        #[ -e lede/target ] && rsync -av lede/target/ openwrt/target/
 
     - name: Load custom configuration
       run: |
