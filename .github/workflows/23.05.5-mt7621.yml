@@ -1,4 +1,4 @@
-name: OpenWrt Builder mt7621 23.05.4
+name: OpenWrt Builder mt7621 23.05.5
 
 on:
   repository_dispatch:
