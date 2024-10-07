@@ -8,10 +8,10 @@
 	model = "DnZO AC";
 
 	aliases {
-		led-boot = &led_system;
-		led-failsafe = &led_system;
-		led-running = &led_status;
-		led-upgrade = &led_status;
+		led-boot = &power_led;
+		led-failsafe = &system_led;
+		led-running = &system_led;
+		led-upgrade = &system_led;
 	};
 
 	chosen {
@@ -21,25 +21,36 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_status: status {
-			label = "white:status";
-			gpios = <&gpio 6 GPIO_ACTIVE_LOW>;
+		power_led: led-power {
+			label = "white:power";
+			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
 
-		led_system: system {
-			label = "red:system";
-			gpios = <&gpio 7 GPIO_ACTIVE_LOW>;
-			panic-indicator;
+		system_led: led-system {
+			label = "white:system";
+			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
 		};
 	};
 
 	keys {
 		compatible = "gpio-keys";
 
-		reset {
+		button-reset {
 			label = "reset";
-			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
+		};
+
+		button-wifi {
+			label = "wifi";
+			gpios = <&gpio 10 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RFKILL>;
+		};
+
+		button-wps {
+			label = "wps";
+			gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
 
