@@ -130,6 +130,10 @@
 		reg = <0x0000 0 0 0 0>;
 		mediatek,mtd-eeprom = <&factory 0x0000>;
 		ieee80211-freq-limit = <2400000 2500000>;
+		
+		led {
+			led-active-low;
+		};
 	};
 };
 
@@ -138,6 +142,11 @@
 		reg = <0x0000 0 0 0 0>;
 		mediatek,mtd-eeprom = <&factory 0x8000>;
 		ieee80211-freq-limit = <5000000 6000000>;
+
+		led {
+			led-active-low;
+			led-sources = <2>;
+		};
 	};
 };
 
