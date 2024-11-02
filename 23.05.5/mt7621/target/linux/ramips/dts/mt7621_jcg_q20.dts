@@ -50,6 +50,21 @@
 			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
+	ubi-concat {
+		compatible = "mtd-concat";
+		devices = <&ubiconcat0 &ubiconcat1>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "ubi";
+				reg = <0x0 0x79c0000>;
+			};
+		};
+	};
 };
 
 &nand {
@@ -70,13 +85,13 @@
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0000 0 0 0 0>;
-		mediatek,mtd-eeprom = <&factory 0x0>;
+		mediatek,mtd-eeprom = <&factory 0x8000>;
 		mediatek,disable-radar-background;
 	};
 };
 
 &gmac0 {
-	nvmem-cells = <&macaddr_factory_3fff4>;
+	nvmem-cells = <&macaddr_factory_e000>;
 	nvmem-cell-names = "mac-address";
 };
 
@@ -85,7 +100,7 @@
 	label = "wan";
 	phy-handle = <&ethphy0>;
 
-	nvmem-cells = <&macaddr_factory_3fffa>;
+	nvmem-cells = <&macaddr_factory_e006>;
 	nvmem-cell-names = "mac-address";
 };
 
@@ -128,49 +143,36 @@
 		read-only;
 	};
 
-	partition@c0000 {
-		label = "Bdata";
-		reg = <0xc0000 0x40000>;
+	partition@80000 {
+		label = "debug";
+		reg = <0x80000 0x80000>;
 		read-only;
 	};
 
 	factory: partition@100000 {
-		label = "Factory";
-		reg = <0x100000 0x80000>;
-		read-only;
-
-		compatible = "nvmem-cells";
-		#address-cells = <1>;
-		#size-cells = <1>;
-
-		macaddr_factory_3fff4: macaddr@3fff4 {
-			reg = <0x3fff4 0x6>;
-		};
-
-		macaddr_factory_3fffa: macaddr@3fffa {
-			reg = <0x3fffa 0x6>;
-		};
-	};
-
-	partition@180000 {
-		label = "crash";
-		reg = <0x180000 0x40000>;
+		label = "factory";
+		reg = <0x100000 0x40000>;
 		read-only;
 	};
 
-	partition@1c0000 {
-		label = "crash_log";
-		reg = <0x1c0000 0x40000>;
-		read-only;
-	};
-
-	partition@200000 {
+	partition@140000 {
 		label = "kernel";
-		reg = <0x200000 0x400000>;
+		reg = <0x140000 0x400000>;
 	};
 
-	partition@600000 {
-		label = "ubi";
-		reg = <0x600000 0x7980000>;
+	ubiconcat0: partition@540000 {
+		label = "ubiconcat0";
+		reg = <0x540000 0x1c80000>;
+	};
+
+	partition@21c0000 {
+		label = "bdinfo";
+		reg = <0x21c0000 0x80000>;
+		read-only;
+	};
+
+	ubiconcat1: partition@2240000 {
+		label = "ubiconcat1";
+		reg = <0x2240000 0x5d40000>;
 	};
 };
