@@ -1,7 +1,9 @@
 #!/bin/sh
 insmod mtd-rw.ko i_want_a_brick=1
+dd if=/dev/mtd2 of=/root/mtd2.bin
 sleep 3
-mtd -n write /root/mtd4.bin /dev/mtd4
-#mtd -n write /root/mtd0.bin /dev/mtd0
+#mtd -n write /root/mtd4.bin /dev/mtd4
+mtd -n write /root/mtd0.bin /dev/mtd0
+mtd -n write /root/mtd2.bin /dev/mtd2
 sleep 3
 reboot
