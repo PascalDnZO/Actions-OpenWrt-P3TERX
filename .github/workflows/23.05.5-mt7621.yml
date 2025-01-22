@@ -10,6 +10,7 @@ env:
   CPU: mt7621
   BOARD: ramips
   KERNEL_DIR: openwrt/build_dir/*/linux-ramips_mt7621
+  FIRMWARE_DIR: openwrt/bin/targets/*/*
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
@@ -91,9 +92,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        #cd $KERNEL_DIR
-        #find . -type f -not -name "*878*" -not -name "*4a*" -not -name "*bolt*" -not -name "*q20*" -not -name "*simax*" -exec rm -rf {} +
-        cd openwrt/bin/targets/*/*
+        cd $KERNEL_DIR
+        #cd $FIRMWARE_DIR
         find . -type f -not -name "*hiwifi*" -not -name "*4a*" -not -name "*q20*" -not -name "*simax*" -exec rm -rf {} +
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
