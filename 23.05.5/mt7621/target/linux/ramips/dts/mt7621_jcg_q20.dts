@@ -7,7 +7,7 @@
 
 / {
 	compatible = "jcg,q20", "mediatek,mt7621-soc";
-	model = "JCG Q20";
+	model = "HiWifi Q20";
 
 	aliases {
 		led-boot = &led_status_red;
