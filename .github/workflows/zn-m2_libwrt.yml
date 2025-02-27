@@ -121,7 +121,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         #cd openwrt/bin/targets/*/*
-        cd openwrt/build_dir/target-aarch64_cortex-a53_musl
+        cd openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-qualcommax_ipq60xx
         ls
         #rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
