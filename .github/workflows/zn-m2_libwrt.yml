@@ -20,7 +20,7 @@ env:
   #REPO_URL: https://github.com/coolsnowwolf/lede.git
   #REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: zn-m2_libwrt.config
+  CONFIG_FILE: znm2_new.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -120,11 +120,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        #cd openwrt
-        mkdir new
-        tar -czvf new.tar.gz openwrt/
-        mv new.tar.gz new/
-        cd new
+        cd openwrt/bin/targets/*/*
         ls
         #rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
