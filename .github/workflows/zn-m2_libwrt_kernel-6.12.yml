@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: zn-m2 libwrt
+name: zn-m2 libwrt kernel 6.12
 
 on:
   repository_dispatch:
