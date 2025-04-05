@@ -17,10 +17,10 @@ on:
   workflow_dispatch:
 
 env:
-  #REPO_URL: https://github.com/coolsnowwolf/lede.git
-  #REPO_BRANCH: master
+  REPO_URL: https://github.com/LiBwrt-op/openwrt-6.x.git
+  REPO_BRANCH: kernel-6.12
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: znm2_new.config
+  CONFIG_FILE: znm2_libwrt_kernel-6.12.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -55,7 +55,7 @@ jobs:
       run: |
         df -hT $PWD
         #git clone $REPO_URL -b $REPO_BRANCH openwrt
-        git clone --depth 1 -b main --single-branch https://github.com/LiBwrt-op/openwrt-6.x.git openwrt
+        git clone --depth 1 -b $REPO_BRANCH --single-branch $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
