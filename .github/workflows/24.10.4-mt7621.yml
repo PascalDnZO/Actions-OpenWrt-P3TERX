@@ -1,4 +1,4 @@
-name: OpenWrt Builder mt7621 23.05.5
+name: OpenWrt Builder mt7621 24.10.4
 
 on:
   repository_dispatch:
@@ -6,7 +6,7 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt.git
-  VERSION: 23.05.5
+  VERSION: 24.10.4
   CPU: mt7621
   BOARD: ramips
   KERNEL_DIR: openwrt/build_dir/*/linux-ramips_mt7621
