@@ -66,6 +66,20 @@ jobs:
         touch target/linux/*/Makefile
         make defconfig
 
+    - name: Debug via SSH (tmate)
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: false        
+
+    - name: Download package
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
     - name: Compile the firmware
       id: compile
       run: |
