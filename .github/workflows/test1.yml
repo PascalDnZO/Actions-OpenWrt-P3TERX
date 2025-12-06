@@ -77,6 +77,11 @@ jobs:
         wget https://downloads.openwrt.org/releases/24.10.4/targets/ramips/mt7621/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
+
+    - name: Debug via SSH (tmate)
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: false 
         
     - name: Download package
       id: package
@@ -86,6 +91,7 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+        
     - name: Compile the firmware
       id: compile
       run: |
@@ -112,7 +118,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
-        find . -type f -not -name "*gr3*" -exec rm -rf {} +
+        find . -type f -not -name "*q20*" -exec rm -rf {} +
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
