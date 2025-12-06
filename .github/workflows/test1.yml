@@ -74,7 +74,7 @@ jobs:
     - name: Load custom configuration
       run: |
         cd openwrt
-        wget https://downloads.openwrt.org/releases/24.10.4/targets/ramips/mt7621/config.buildinfo -O .config
+        wget https://downloads.immortalwrt.org/releases/24.10.4/targets/ramips/mt7621/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
 
