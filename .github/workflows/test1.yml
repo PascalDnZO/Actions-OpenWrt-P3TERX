@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config_gr3
@@ -57,7 +57,7 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         
     - name: Choose version
-      run: cd openwrt && git checkout v21.02.7
+      run: cd openwrt && git checkout v24.10.4
 
     - name: Load custom feeds
       run: |
@@ -74,7 +74,7 @@ jobs:
     - name: Load custom configuration
       run: |
         cd openwrt
-        wget https://downloads.openwrt.org/releases/21.02.7/targets/ramips/mt7621/config.buildinfo -O .config
+        wget https://downloads.openwrt.org/releases/24.10.4/targets/ramips/mt7621/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
         
