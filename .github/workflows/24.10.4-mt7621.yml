@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/openwrt/openwrt.git
+  REPO_URL: https://github.com/immortalwrt/immortalwrt.git
   VERSION: 24.10.4
   CPU: mt7621
   BOARD: ramips
@@ -57,12 +57,12 @@ jobs:
     - name: add new devices
       run: |
         #mv $VERSION/$CPU/target/linux/ramips/dts/mt7621_jcg_q20.dts openwrt/target/linux/ramips/dts/mt7621_jcg_q20.dts
-        #[ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/ openwrt/target/
+        [ -e $VERSION/$CPU/target ] && rsync -av $VERSION/$CPU/target/ openwrt/target/
         
     - name: Load custom configuration
       run: |
         cd openwrt
-        wget https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
+        wget https://downloads.immortalwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
 
