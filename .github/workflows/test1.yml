@@ -71,6 +71,11 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: add new devices
+      run: |
+        #mv $VERSION/$CPU/target/linux/ramips/dts/mt7621_jcg_q20.dts openwrt/target/linux/ramips/dts/mt7621_jcg_q20.dts
+        [ -e 24.10.4/mt7621/target ] && rsync -av 24.10.4/mt7621/target/ openwrt/target/
+
     - name: Load custom configuration
       run: |
         cd openwrt
