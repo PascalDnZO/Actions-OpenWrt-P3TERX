@@ -7,7 +7,7 @@
 #include <dt-bindings/leds/common.h>
 
 / {
-	compatible = "zte,e8820s", "mediatek,mt7621-soc";
+	compatible = "hiwifi,hc5962s", "mediatek,mt7621-soc";
 	model = "ZTE E8820S";
 
 	aliases {
@@ -15,7 +15,7 @@
 		led-failsafe = &system_led;
 		led-running = &system_led;
 		led-upgrade = &system_led;
-		label-mac-device = &gmac1;
+		label-mac-device = &gmac0;
 	};
 
 	chosen {
@@ -59,7 +59,7 @@
 			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
-  ubi-concat {
+	ubi-concat {
 		compatible = "mtd-concat";
 		devices = <&ubiconcat0 &ubiconcat1>;
 
@@ -81,7 +81,7 @@
 };
 
 &gmac0 {
-	nvmem-cells = <&macaddr_factory_e000>;
+	nvmem-cells = <&macaddr_config_12 0>;
 	nvmem-cell-names = "mac-address";
 };
 
@@ -90,7 +90,7 @@
 	label = "wan";
 	phy-handle = <&ethphy4>;
 
-	nvmem-cells = <&macaddr_factory_e006>;
+	nvmem-cells = <&macaddr_config_12 0>;
 	nvmem-cell-names = "mac-address";
 };
 
@@ -103,21 +103,47 @@
 		#size-cells = <1>;
 
 		partition@0 {
-			label = "u-boot";
+			label = "Bootloader";
 			reg = <0x0 0x80000>;
 			read-only;
 		};
 
 		partition@80000 {
-			label = "debug";
+			compatible = "nvmem-cells";
+			label = "config";
 			reg = <0x80000 0x80000>;
 			read-only;
+
+			nvmem-layout {
+				compatible = "fixed-layout";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				macaddr_config_12: macaddr@12 {
+					compatible = "mac-base";
+					reg = <0x12 0x6>;
+					#nvmem-cell-cells = <1>;
+				};
+			};
 		};
 
 		factory: partition@100000 {
 			label = "factory";
 			reg = <0x100000 0x40000>;
 			read-only;
+
+			nvmem-layout {
+				compatible = "fixed-layout";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				eeprom_factory_f000: eeprom@f000 {
+					reg = <0xf000 0x400>;
+				};
+
+				eeprom_factory_f800: eeprom@f800 {
+					reg = <0xf800 0x200>;
+				};
 		};
 
 		partition@140000 {
