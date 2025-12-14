@@ -76,6 +76,14 @@ jobs:
         #mv $VERSION/$CPU/target/linux/ramips/dts/mt7621_jcg_q20.dts openwrt/target/linux/ramips/dts/mt7621_jcg_q20.dts
         [ -e 24.10.4/mt7621/target ] && rsync -av 24.10.4/mt7621/target/ openwrt/target/
 
+    - name: Setup swap
+      run: |
+        sudo fallocate -l 8G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        free -h
+        
     - name: Load custom configuration
       run: |
         cd openwrt
