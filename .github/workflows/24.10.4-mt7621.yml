@@ -1,12 +1,12 @@
-name: OpenWrt Builder mt7621 24.10.4
+name: OpenWrt Builder mt7621 24.10.6
 
 on:
   repository_dispatch:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  VERSION: 24.10.4
+  REPO_URL: https://github.com/openwrt/openwrt.git
+  VERSION: 24.10.6
   CPU: mt7621
   BOARD: ramips
   KERNEL_DIR: openwrt/build_dir/*/linux-ramips_mt7621
@@ -62,14 +62,44 @@ jobs:
     - name: Load custom configuration
       run: |
         cd openwrt
-        wget https://downloads.immortalwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
+        wget https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
         touch target/linux/*/Makefile
         make defconfig
 
-    - name: Debug via SSH (tmate)
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: false        
+    - name: Download External Toolchain
+      # Downloads and extracts it toolchain and llvm
+      run: |
+        mkdir -p /opt/toolchain
+        echo "Downloading..."
+        wget -q "https://downloads.openwrt.org/releases/24.10.6/targets/ramips/mt7621/openwrt-toolchain-24.10.6-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst"
+        tar -xf *toolchain* -C /opt/toolchain --strip-components=2 --wildcards "*/toolchain-mipsel_24kc_gcc-*"
+        rm *toolchain*
+
+        echo "Downloading ..."
+        wget -q "https://downloads.openwrt.org/releases/24.10.6/targets/ramips/mt7621/llvm-bpf-18.1.7.Linux-x86_64.tar.zst"
+        tar -xf llvm* -C ./openwrt
+        rm llvm*
+
+    - name: Generate Custom Configuration & Inject Toolchain
+      run: |
+        
+        # Force the build system to use the external toolchain downloaded earlier
+        cat << 'EOF' >> openwrt/.config
+        
+        CONFIG_DEVEL=y
+        CONFIG_EXTERNAL_TOOLCHAIN=y
+        CONFIG_TOOLCHAIN_ROOT="/opt/toolchain"
+        CONFIG_TOOLCHAIN_PREFIX="mipsel-openwrt-linux-musl-"
+        CONFIG_TOOLCHAIN_LIBC="musl"
+        EOF
+        
+        cd openwrt
+        make defconfig
+        
+    # - name: Debug via SSH (tmate)
+      # uses: mxschmitt/action-tmate@v3
+      # with:
+      #   limit-access-to-actor: false        
 
     - name: Download package
       id: package
