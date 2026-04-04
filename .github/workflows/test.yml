@@ -1,4 +1,4 @@
-name: OpenWrt Kernel Builder FAST
+name: OpenWrt Kernel Builder mt7621 FAST
 
 on:
   workflow_dispatch:
@@ -17,57 +17,64 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    # ⚡ SETUP MINIMAL
+    # ⚡ DEPENDENCY MINIMAL
     - name: Install dependencies
       run: |
         sudo apt-get update -qq
         sudo apt-get install -yq \
           build-essential flex bison g++ gawk \
-          libncurses-dev libssl-dev python3 rsync unzip file wget
+          libncurses-dev libssl-dev python3 rsync unzip file wget \
+          clang
 
     # ⚡ CLONE CEPAT
     - name: Clone source
       run: |
         git clone --depth 1 --branch v$VERSION $REPO_URL openwrt
 
-    # ⚡ CACHE (WAJIB BIAR CEPAT)
-    - name: Cache
+    # ⚡ CACHE DOWNLOAD (BIAR CEPAT)
+    - name: Cache dl
       uses: actions/cache@v4
       with:
-        path: |
-          openwrt/dl
-        key: kernel-${{ env.VERSION }}
+        path: openwrt/dl
+        key: dl-${{ env.VERSION }}
 
-    # ⚡ FEEDS (minimal)
-    - name: Feeds
+    # ⚡ FEEDS
+    - name: Update feeds
       run: |
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-    # ⚡ CONFIG
+    # ⚡ CONFIG DEFAULT TARGET
     - name: Load config
       run: |
         cd openwrt
         wget https://downloads.immortalwrt.org/releases/$VERSION/targets/$BOARD/$CPU/config.buildinfo -O .config
         make defconfig
 
-    # 🔥 BUILD KERNEL ONLY
-    - name: Compile kernel only
+    # 🔥 WAJIB: BUILD TOOLS + TOOLCHAIN
+    - name: Prepare toolchain
       run: |
         cd openwrt
-        make target/linux/clean
+        make tools/install -j2 V=s
+        make toolchain/install -j2 V=s
+
+    # 🔥 BUILD KERNEL SAJA
+    - name: Compile kernel
+      run: |
+        cd openwrt
         make target/linux/compile -j2 V=s
 
-    # 📦 AMBIL HASIL KERNEL
-    - name: Collect kernel
+    # 📦 AMBIL HASIL
+    - name: Collect kernel files
       run: |
         cd openwrt/bin/targets/ramips/mt7621
         ls -lah
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
-    - name: Upload kernel files
+    # 📤 UPLOAD
+    - name: Upload kernel
       uses: actions/upload-artifact@v4
       with:
-        name: kernel-mt7621
+        name: kernel-mt7621-${{ env.VERSION }}
         path: ${{ env.FIRMWARE }}
